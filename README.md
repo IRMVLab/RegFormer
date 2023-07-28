@@ -13,6 +13,7 @@ Our model only depends on the following commonly used packages.
 | tqdm         | *not specified*                  |
 | numpy        | *not specified*                  |
 | openxyl      | *not specified*                  |
+
 Device: NVIDIA RTX 3090
 
 ## Install the pointnet2 library
