@@ -42,6 +42,7 @@ data_root
 
 # NuScenes Dataset
 The data of the NuScenes odometry dataset (https://nuscenes.org/nuscenes#download) should be organized as follows:
+```
 DATA_ROOT
 ├── v1.0-trainval
 │   ├── maps
@@ -55,6 +56,7 @@ DATA_ROOT
 │   │   ├──LIDAR_TOP
 │   ├── sweeps
 │   ├── v1.0-test
+```
 
 ## Training
 Train the network by running :
