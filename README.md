@@ -27,7 +27,7 @@ python setup.py install
 cd ../
 ```
 ## Datasets
-# KITTI Dataset
+### KITTI Dataset
 Datasets are available at KITTI Odometry benchmark website: [ https://drive.google.com/drive/folders/1Su0hCuGFo1AGrNb_VMNnlF7qeQwKjfhZ](https://www.cvlibs.net/datasets/kitti/eval_odometry.php)
 The data of the KITTI odometry dataset should be organized as follows: 
 
@@ -40,7 +40,7 @@ data_root
 ├── ...
 ```
 
-# NuScenes Dataset
+### NuScenes Dataset
 The data of the NuScenes odometry dataset (https://nuscenes.org/nuscenes#download) should be organized as follows:
 ```
 DATA_ROOT
