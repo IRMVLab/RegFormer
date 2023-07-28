@@ -73,8 +73,12 @@ python train.py
 ```
 Please reminder to specify the `GPU`, `data_root`,`log_dir`, `test_list`(sequences for testing) in the scripts.
 
-### Quantitative results:
-<img src="sota.png">
+## Quantitative results:
+### KITTI 
+<img src="kitti.png">
+
+### NuScenes
+<img src="nuscenes.png">
 
 ## Citation
 ```
