@@ -12,7 +12,7 @@ Our model only depends on the following commonly used packages.
 | h5py         | *not specified*                  |
 | tqdm         | *not specified*                  |
 | numpy        | *not specified*                  |
-| openxyl      | *not specified*                  |
+| openpyxl      | *not specified*                  |
 
 Device: NVIDIA RTX 3090
 
