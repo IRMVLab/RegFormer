@@ -68,11 +68,12 @@ Please reminder to specify the `GPU`, `data_root`,`log_dir`, `train_list`(sequen
 You may specify the value of arguments. Please find the available arguments in the configs.py. 
 
 ## Testing
-Evaluate the network by running :
+Our network is evaluated every 2 epoph during training. If you only want the evaluation results, you can set the parameter 'eval_before' as 'True' in file config.py, then evaluate the network by running :
 ```bash
 python train.py
 ```
 Please reminder to specify the `GPU`, `data_root`,`log_dir`, `test_list`(sequences for testing) in the scripts.
+You can also get the pretrined model in https://drive.google.com/drive/folders/1epQUIxG4wIg2yJu7kxArrwOmE0B24OeV.
 
 ## Quantitative results:
 ### KITTI 
