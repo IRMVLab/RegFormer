@@ -97,6 +97,7 @@ class regformer_model(nn.Module):
 
         #####   initialize the parameters (distance  &  stride ) ######
         self.H_input = H_input; self.W_input = W_input
+        self.Down_conv_dis = [0.75, 3.0, 6.0, 12.0]
         self.Up_conv_dis = [3.0, 6.0, 9.0]
         self.Cost_volume_dis = [1.0, 2.0, 4.5]
 
@@ -118,7 +119,7 @@ class regformer_model(nn.Module):
         ################################
         # Stride-based Sampling #
         ################################
-        self.embedding = PointNetSaModule(batch_size = batch_size, K_sample = 32, kernel_size = [9, 15], H = self.out_H_list[0], W = self.out_W_list[0], \
+        self.layer0 = PointNetSaModule(batch_size = batch_size, K_sample = 32, kernel_size = [9, 15], H = self.out_H_list[0], W = self.out_W_list[0], \
                                        stride_H = self.stride_H_list[0], stride_W = self.stride_W_list[0], distance = 0.75, in_channels = 3,
                                        mlp = [8, 8, 16], is_training = self.training, bn_decay = bn_decay)
         self.merging1 = PatchMerging(input_resolution = (self.out_H_list[0], self.out_W_list[0]), dim=16, w_only = 0, norm_layer = nn.LayerNorm)
@@ -126,12 +127,46 @@ class regformer_model(nn.Module):
         self.merging3 = PatchMerging(input_resolution = (self.out_H_list[2], self.out_W_list[2]), dim=64, w_only = 1, norm_layer = nn.LayerNorm)
         self.reduction3 = nn.Linear(128, 64, bias=False)
 
+
+        self.layer1 = PointNetSaModule(batch_size = batch_size, K_sample = 32, kernel_size = [7, 11], H = self.out_H_list[1], W = self.out_W_list[1], \
+                                       stride_H = self.stride_H_list[1], stride_W = self.stride_W_list[1], distance = self.Down_conv_dis[1],
+                                       in_channels = 16,
+                                       mlp=[16, 16, 32], is_training=self.training,
+                                       bn_decay = bn_decay)
+
+        self.layer2 = PointNetSaModule(batch_size = batch_size, K_sample = 16, kernel_size = [5, 9], H = self.out_H_list[2], W = self.out_W_list[2], \
+                                       stride_H = self.stride_H_list[2], stride_W = self.stride_W_list[2], distance = self.Down_conv_dis[2],
+                                       in_channels=32,
+                                       mlp=[32, 32, 64], is_training=self.training,
+                                       bn_decay=bn_decay)
+
+        self.layer3 = PointNetSaModule(batch_size = batch_size, K_sample = 16, kernel_size = [5, 9], H = self.out_H_list[3], W = self.out_W_list[3], \
+                                       stride_H = self.stride_H_list[3], stride_W = self.stride_W_list[3], distance = self.Down_conv_dis[3],
+                                       in_channels=64,
+                                       mlp=[64, 64, 128], is_training=self.training,
+                                       bn_decay=bn_decay)
+
+        self.laye3_1 = PointNetSaModule(batch_size = batch_size, K_sample = 16, kernel_size = [5, 9], H = self.out_H_list[3], W = self.out_W_list[3], \
+                                       stride_H = self.stride_H_list[3], stride_W = self.stride_W_list[3], distance = self.Down_conv_dis[3],
+                                       in_channels=64,
+                                       mlp=[128, 64, 64], is_training=self.training,
+                                       bn_decay=bn_decay)
+
         #############################
         # Cost volume #
         #############################
         self.allcost1 = All2AllPoint_Gathering(radius=None, nsample=4, nsample_q=16, in_channels=64, mlp1=[128, 64, 64],
                                        mlp2=[128, 64], is_training=is_training, bn_decay=bn_decay, bn=True,
                                        pooling='max', knn=True, corr_func='concat')
+
+        self.cost_volume1 = cost_volume(batch_size=batch_size, kernel_size1=[3, 5], kernel_size2=[5, 35], nsample=4,
+                                        nsample_q=32, \
+                                        H=self.out_H_list[2], W=self.out_W_list[2], \
+                                        stride_H=1, stride_W=1, distance=self.Cost_volume_dis[2],
+                                        in_channels=[64, 64],
+                                        mlp1=[128, 64, 64], mlp2=[128, 64], is_training=self.training,
+                                        bn_decay=bn_decay,
+                                        bn=True, pooling='max', knn=True, corr_func='concat')
 
         self.cost_volume2 = cost_volume(batch_size=batch_size, kernel_size1=[3, 5], kernel_size2=[5, 15], nsample=4,
                                         nsample_q=6, \
@@ -284,7 +319,7 @@ class regformer_model(nn.Module):
                                              use_checkpoint=False)
 
 
-    def forward(self, input_xyz_f1, input_xyz_f2, T_gt):
+    def forward(self, input_xyz_f1, input_xyz_f2, T_gt, T_trans, T_trans_inv):
 
         start_train = time.time()
         batch_size = len(input_xyz_f1)
@@ -346,7 +381,7 @@ class regformer_model(nn.Module):
         input_points_f1 = torch.zeros_like(input_xyz_aug_proj_f1)
         input_points_f2 = torch.zeros_like(input_xyz_aug_proj_f2)
         # Flame 1
-        l0_points_f1, l0_points_proj_f1 = self.embedding(input_xyz_aug_proj_f1, input_points_f1, l0_xyz_proj_f1)
+        l0_points_f1, l0_points_proj_f1 = self.layer0(input_xyz_aug_proj_f1, input_points_f1, l0_xyz_proj_f1)
         l0_points_f1 = self.swin0(l0_points_f1, l0_mask_f1)
         # l0_points_proj_f1 = torch.reshape(l0_points_f1, (batch_size, self.out_H_list[0], self.out_W_list[0], -1))
 
@@ -359,7 +394,7 @@ class regformer_model(nn.Module):
         # l2_points_proj_f1 = torch.reshape(l2_points_f1, (batch_size, self.out_H_list[2], self.out_W_list[2], -1))
 
         ##### Flame 2
-        l0_points_f2, l0_points_proj_f2 = self.embedding(input_xyz_aug_proj_f2, input_points_f2, l0_xyz_proj_f2)
+        l0_points_f2, l0_points_proj_f2 = self.layer0(input_xyz_aug_proj_f2, input_points_f2, l0_xyz_proj_f2)
         l0_points_f2 = self.swin0(l0_points_f2, l0_mask_f2)
         # l0_points_proj_f2 = torch.reshape(l0_points_f2, (batch_size, self.out_H_list[0], self.out_W_list[0], -1))
 
