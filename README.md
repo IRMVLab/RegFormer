@@ -7,17 +7,25 @@ Our model only depends on the following commonly used packages.
 
 | Package      | Version                          |
 | ------------ | -------------------------------- |
-| CUDA         |  11.3                            |
-| PyTorch      |  1.10.0                          |
+| CUDA         |  1.11.3                          |
+| Python       |  3.8.10                          |
+| PyTorch      |  1.12.0                          |
 | h5py         | *not specified*                  |
 | tqdm         | *not specified*                  |
 | numpy        | *not specified*                  |
-| openpyxl      | *not specified*                  |
+| openpyxl     | *not specified*                  |
 
 Device: NVIDIA RTX 3090
 
 ## Install the pointnet2 library
 Compile the furthest point sampling, grouping and gathering operation for PyTorch with following commands. 
+```bash
+cd pointnet2
+python setup.py install
+```
+
+## Install the CUDA-based KNN searching and random searching
+We leverage CUDA-based operator for parallel computing, please compile them with following commands. 
 ```bash
 cd ops_pytorch
 cd fused_conv_random_k
@@ -27,6 +35,7 @@ cd fused_conv_select_k
 python setup.py install
 cd ../
 ```
+
 ## Datasets
 ### KITTI Dataset
 Datasets are available at KITTI Odometry benchmark website: [ https://drive.google.com/drive/folders/1Su0hCuGFo1AGrNb_VMNnlF7qeQwKjfhZ](https://www.cvlibs.net/datasets/kitti/eval_odometry.php)
