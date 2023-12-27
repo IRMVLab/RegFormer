@@ -25,7 +25,7 @@ python setup.py install
 ```
 
 ## Install the CUDA-based KNN searching and random searching
-We leverage CUDA-based operator for parallel computing, please compile them with following commands. 
+We leverage CUDA-based operator for parallel neighbor searching [Reference: [EfficientLONet] (https://github.com/IRMVLab/EfficientLO-Net)]. You can compile them with following commands. 
 ```bash
 cd ops_pytorch
 cd fused_conv_random_k
