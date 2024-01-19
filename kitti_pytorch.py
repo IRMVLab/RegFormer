@@ -163,12 +163,13 @@ class points_dataset(data.Dataset):
         T_trans_inv = np.linalg.inv(T_trans)
 
         # Augment
-        aug_T = np.zeros((4, 4), dtype=np.float32)
-        aug_T[3, 3] = 1.0
-        rand_rotm = generate_rand_rotm(1.0, 1.0, 45.0)
-        aug_T[:3, :3] = rand_rotm
-        pos2 = apply_transform(pos2, aug_T)
-        T_gt = T_gt.dot(np.linalg.inv(aug_T))
+        if self.is_training:
+            aug_T = np.zeros((4, 4), dtype=np.float32)
+            aug_T[3, 3] = 1.0
+            rand_rotm = generate_rand_rotm(1.0, 1.0, 45.0)
+            aug_T[:3, :3] = rand_rotm
+            pos2 = apply_transform(pos2, aug_T)
+            T_gt = T_gt.dot(np.linalg.inv(aug_T))
 
 
 
