@@ -3,7 +3,7 @@ ICCV2023 "RegFormer: An Efficient Projection-Aware Transformer Network for Large
 <img src="pipeline2.png">
 
 ## NEWS
-We update the settings of RegFormer on the Nuscenes dataset in Regformer_Nuscenes branch.
+We update the settings of RegFormer on the Nuscenes dataset in RegFormer_NuScenes branch.
 
 ## Installation
 Our model only depends on the following commonly used packages.
