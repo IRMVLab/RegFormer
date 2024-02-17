@@ -86,7 +86,7 @@ You can also get the pretrined model in https://drive.google.com/drive/folders/1
 
 ## Quantitative results:
 ### KITTI 
-<img src="kitti.png">
+<img src="KITTI.png">
 
 ### NuScenes
 <img src="nuscenes.png">
