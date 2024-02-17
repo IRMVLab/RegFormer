@@ -96,11 +96,13 @@ You can also get the pretrined model in https://drive.google.com/drive/folders/1
 
 ## Citation
 ```
-@article{liu2023regformer,
-  title={RegFormer: An Efficient Projection-Aware Transformer Network for Large-Scale Point Cloud Registration},
-  author={Liu, Jiuming and Wang, Guangming and Liu, Zhe and Jiang, Chaokang and Pollefeys, Marc and Wang, Hesheng},
-  journal={arXiv preprint arXiv:2303.12384},
-  year={2023}
+@InProceedings{Liu_2023_ICCV,
+    author    = {Liu, Jiuming and Wang, Guangming and Liu, Zhe and Jiang, Chaokang and Pollefeys, Marc and Wang, Hesheng},
+    title     = {RegFormer: An Efficient Projection-Aware Transformer Network for Large-Scale Point Cloud Registration},
+    booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
+    month     = {October},
+    year      = {2023},
+    pages     = {8451-8460}
 }
 ```
 ### Acknowledgments
