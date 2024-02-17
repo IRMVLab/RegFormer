@@ -1,6 +1,5 @@
 # RegFormer
-ICCV2023 "RegFormer: An Efficient Projection-Aware Transformer Network for Large-Scale Point Cloud Registration" created by Jiuming Liu, Guangming Wang, Zhe Liu, Chaokang Jiang, Marc Pollofeys, and Hesheng Wang.
-<img src="pipeline2.png">
+NuScenes version of ICCV2023 "RegFormer: An Efficient Projection-Aware Transformer Network for Large-Scale Point Cloud Registration" created by Jiuming Liu, Guangming Wang, Zhe Liu, Chaokang Jiang, Marc Pollofeys, and Hesheng Wang.
 
 ## Installation
 Our model only depends on the following commonly used packages.
@@ -71,7 +70,7 @@ DATA_ROOT
 ## Training
 Train the network by running :
 ```bash
-python train.py 
+python nu_train.py 
 ```
 Please reminder to specify the `GPU`, `data_root`,`log_dir`, `train_list`(sequences for training), `val_list`(sequences for validation).
 You may specify the value of arguments. Please find the available arguments in the configs.py. 
@@ -79,14 +78,12 @@ You may specify the value of arguments. Please find the available arguments in t
 ## Testing
 Our network is evaluated every 2 epoph during training. If you only want the evaluation results, you can set the parameter 'eval_before' as 'True' in file config.py, then evaluate the network by running :
 ```bash
-python train.py
+python nu_train.py
 ```
 Please reminder to specify the `GPU`, `data_root`,`log_dir`, `test_list`(sequences for testing) in the scripts.
 You can also get the pretrined model in https://drive.google.com/drive/folders/1epQUIxG4wIg2yJu7kxArrwOmE0B24OeV.
 
 ## Quantitative results:
-### KITTI 
-<img src="kitti.png">
 
 ### NuScenes
 <img src="nuscenes.png">
