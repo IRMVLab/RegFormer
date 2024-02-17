@@ -2,6 +2,9 @@
 ICCV2023 "RegFormer: An Efficient Projection-Aware Transformer Network for Large-Scale Point Cloud Registration" created by Jiuming Liu, Guangming Wang, Zhe Liu, Chaokang Jiang, Marc Pollofeys, and Hesheng Wang.
 <img src="pipeline2.png">
 
+## NEWS
+We update the settings of RegFormer on the Nuscenes dataset in Regformer_Nuscenes branch.
+
 ## Installation
 Our model only depends on the following commonly used packages.
 
